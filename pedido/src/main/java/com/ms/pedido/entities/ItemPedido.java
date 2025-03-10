@@ -31,7 +31,7 @@ public class ItemPedido implements Serializable {
     @JoinColumn(name = "pedido_id", nullable = false)
     private Pedido pedido;
 
-    private Long produtoId;
+    private UUID produtoId;
 
     @NotNull
     private Integer quantidade;

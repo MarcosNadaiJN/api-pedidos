@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
+
+    <changeSet id="create_emailmodel_table" author="marcos.nadai">
+        <preConditions onFail="MARK_RAN" onFailMessage="Tabela MS_EMAILS já existe">
+            <not>
+                <tableExists tableName="MS_EMAILS"/>
+            </not>
+        </preConditions>
+        <createTable tableName="MS_EMAILS">
+            <column name="emailId" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="userId" type="UUID"/>
+            <column name="emailFrom" type="varchar(50)"/>
+            <column name="emailTo" type="varchar(50)"/>
+            <column name="subject" type="varchar(150)"/>
+            <column name="text" type="varchar(1000)"/>
+            <column name="sendDateEmail" type="DATE"/>
+            <column name="statusEmail" type="varchar(10)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

@@ -15,9 +15,9 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Entity
-@Table(name = "TB_EMAILS")
 @Getter
 @Setter
+@Table(name = "TB_EMAILS")
 public class EmailModel implements Serializable {
     private static final long serialVersionUID = 1L;
 

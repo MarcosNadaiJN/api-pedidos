@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
+
+    <changeSet id="create-MS_PRODUTO-table" author="marcos.nadai">
+        <preConditions onFail="MARK_RAN" onFailMessage="Tabela MS_PRODUTO já existe.">
+            <not>
+                <tableExists tableName="MS_PRODUTO"/>
+            </not>
+        </preConditions>
+        <createTable tableName="MS_PRODUTO">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="nome" type="varchar(100)"/>
+            <column name="preco" type="numeric(10,4)"/>
+            <column name="quantidadeDisponivel" type="numeric(10)"/>
+        </createTable>
+    </changeSet>
+
+</databaseChangeLog>

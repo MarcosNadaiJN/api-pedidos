@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.8.xsd">
+
+    <changeSet id="create-MS_PEDIDOS-table" author="marcos.nadai">
+        <preConditions onFail="MARK_RAN" onFailMessage="Tabela MS_PEDIDOS já existe.">
+            <not>
+                <tableExists tableName="ms_pedidos"/>
+            </not>
+        </preConditions>
+        <createTable tableName="MS_PEDIDOS">
+            <column name="id" type="UUID">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="usuarioId" type="UUID"/>
+            <column name="status" type="varchar(50)"/>
+            <column name="dataCriacao" type="DATETIME"/>
+        </createTable>
+
+        <addForeignKeyConstraint
+                baseTableName="MS_PEDIDOS"
+                baseColumnNames="usuarioId"
+                constraintName="pedido_usuario_FK"
+                referencedTableName="MS_USUARIOS"
+                referencedColumnNames="id"/>
+    </changeSet>
+
+</databaseChangeLog>
