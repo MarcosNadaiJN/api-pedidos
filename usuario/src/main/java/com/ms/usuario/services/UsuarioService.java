@@ -5,6 +5,12 @@ import com.ms.usuario.dtos.UsuarioRecord;
 import com.ms.usuario.entities.Usuario;
 import com.ms.usuario.repositories.UsuarioRepository;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -20,15 +26,18 @@ public class UsuarioService {
         this.usuarioRepository = usuarioRepository;
     }
 
-    public Usuario save(UsuarioRecord produtoRecord) {
-        Usuario produto = new Usuario();
-        BeanUtils.copyProperties(produtoRecord, produto);
-        return this.usuarioRepository.saveAndFlush(produto);
+    public Usuario save(UsuarioRecord usuarioRecord) {
+        if (this.usuarioRepository.existsById(usuarioRecord.id())) throw new RuntimeException("Usuario já existe");
+
+        String passwordHash = new BCryptPasswordEncoder().encode(usuarioRecord.senha());
+        Usuario usuario = new Usuario(usuarioRecord.email(), passwordHash, usuarioRecord.role());
+
+        return this.usuarioRepository.saveAndFlush(usuario);
     }
 
-    public Usuario update(UsuarioRecord produtoAtualizado) {
-        Usuario usuarioSalvo = this.usuarioRepository.findById(produtoAtualizado.id()).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
-        BeanUtils.copyProperties(produtoAtualizado, usuarioSalvo);
+    public Usuario update(UsuarioRecord usuarioAtualizado) {
+        Usuario usuarioSalvo = this.usuarioRepository.findById(usuarioAtualizado.id()).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+        BeanUtils.copyProperties(usuarioAtualizado, usuarioSalvo);
         return this.usuarioRepository.saveAndFlush(usuarioSalvo);
     }
 
